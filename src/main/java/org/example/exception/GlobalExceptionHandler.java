@@ -3,6 +3,8 @@ package org.example.exception;
 import io.jsonwebtoken.JwtException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;
+
+import org.example.exception.customs.httpstatus.HttpStatusException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -124,6 +126,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     // --- Handlers con logs ---
+    @ExceptionHandler(HttpStatusException.class)
+    public ResponseEntity<ProblemDetail> handleHttpStatusException(HttpStatusException ex, WebRequest request) {
+        logError(errorLog, "WARN", ex, (ServletWebRequest) request, ex.getMessage());
+        ProblemDetail problem = buildProblemDetail(ex.getStatus(), ex.getClass().getSimpleName(), ex.getMessage());
+        return ResponseEntity.status(ex.getStatus()).body(problem);
+    }
+
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ProblemDetail> handleEntityNotFound(EntityNotFoundException ex, WebRequest request) {
         logError(errorLog, "WARN", ex, (ServletWebRequest) request, ex.getMessage());

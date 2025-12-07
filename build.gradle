@@ -3,7 +3,7 @@ plugins {
     id 'java'
 }
 
-group = 'com.example'
+group = 'org.example'
 version = '1.0.0'
 
 java {
@@ -56,4 +56,5 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'io.micrometer:micrometer-registry-prometheus'
 
+    implementation 'com.mercadopago:sdk-java:2.8.0'
 }

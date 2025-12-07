@@ -1,5 +1,6 @@
 package org.example.service;
 
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.example.dto.AuthResponse;
@@ -7,6 +8,9 @@ import org.example.dto.LoginDto;
 import org.example.dto.RegisterDto;
 import org.example.entity.Role;
 import org.example.entity.User;
+import org.example.exception.customs.httpstatus.ConflictException;
+import org.example.exception.customs.httpstatus.NotFoundException;
+import org.example.exception.customs.httpstatus.UnauthorizedException;
 import org.example.repository.RoleRepository;
 import org.example.repository.UserRepository;
 import org.example.security.JwtUtil;
@@ -14,12 +18,16 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class AuthService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -28,28 +36,15 @@ public class AuthService {
     private final JwtUtil jwtUtil;
     private final RefreshTokenService refreshTokenService;
 
-    public AuthService(UserRepository userRepository,
-            RoleRepository roleRepository,
-            PasswordEncoder passwordEncoder,
-            AuthenticationManager authenticationManager,
-            JwtUtil jwtUtil, RefreshTokenService refreshTokenService) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.authenticationManager = authenticationManager;
-        this.jwtUtil = jwtUtil;
-        this.refreshTokenService = refreshTokenService;
-    }
-
     @Transactional
     public String register(RegisterDto registerDto) {
 
         if (userRepository.existsByUsername(registerDto.username())) {
-            throw new IllegalArgumentException("El username ya está en uso");
+            throw new ConflictException("El username ya está en uso");
         }
 
         if (userRepository.existsByEmail(registerDto.email())) {
-            throw new IllegalArgumentException("El email ya está en uso");
+            throw new ConflictException("El email ya está en uso");
         }
 
         // Buscar o crear ROLE_USER
@@ -117,6 +112,28 @@ public class AuthService {
     public void logout(String refreshToken) {
         var tokenEntity = refreshTokenService.validateAndGet(refreshToken);
         refreshTokenService.deleteByUser(tokenEntity.getUser());
+    }
+
+    @Transactional(readOnly = true)
+    public User getCurrentUser() {
+
+        var authentication = SecurityContextHolder
+                .getContext()
+                .getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new UnauthorizedException("No autenticado");
+        }
+
+        String username = authentication.getName();
+
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new NotFoundException("Usuario no encontrado"));
+    }
+
+    @Transactional(readOnly = true)
+    public UUID getCurrentUserId() {
+        return getCurrentUser().getId();
     }
 
 }

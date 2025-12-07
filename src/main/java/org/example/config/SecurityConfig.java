@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
+@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
     private final JwtUtil jwtUtil;
@@ -100,15 +100,17 @@ public class SecurityConfig {
                     throws ServletException, IOException {
 
                 String authHeader = req.getHeader("Authorization");
-
+                System.out.println("Header: " + authHeader);
                 if (authHeader != null && authHeader.startsWith("Bearer ")) {
                     String token = authHeader.substring(7);
-
+                    System.out.println("TOken: " + token);
                     if (jwtUtil.validateToken(token)) {
                         String username = jwtUtil.extractUsername(token);
+                        System.out.println("Valido name: " + username);
 
                         if (SecurityContextHolder.getContext().getAuthentication() == null) {
                             UserDetails userDetails = userDetailsService().loadUserByUsername(username);
+                            System.out.println("Cargado en el contexto");
 
                             UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
                                     userDetails, null, userDetails.getAuthorities());
@@ -163,6 +165,8 @@ public class SecurityConfig {
                                 "/swagger-ui.html",
                                 "/swagger-resources/**",
                                 "/webjars/**")
+                        .permitAll()
+                        .requestMatchers("/api/purchases/webhook/mp")
                         .permitAll()
                         .anyRequest().authenticated())
                 .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin())) // Para H2
