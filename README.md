@@ -245,6 +245,24 @@ curl -X POST https://voucher-ecommerce.onrender.com/api/purchases/$PURCHASE_ID/u
   -H "Authorization: Bearer $ADMIN_TOKEN"
 ```
 
+## 🗄️ Consola H2 (ambiente de pruebas)
+
+El backend expone una base de datos **H2 en memoria** para pruebas y demostración.
+
+➡️ **Acceso directo:**  
+https://voucher-ecommerce.onrender.com/h2-console
+
+### **Credenciales**
+
+| Campo    | Valor                |
+| -------- | -------------------- |
+| JDBC URL | `jdbc:h2:mem:testdb` |
+| User     | `sa`                 |
+| Password | _(vacío)_            |
+
+> ⚠️ _Nota:_ Esta BD es solo para pruebas.  
+> Se reinicia automáticamente al reiniciar la instancia de Render.
+
 # 👨‍💻 Sobre mí
 
 Desarrollador Backend especializado en **Java + Spring Boot**.
