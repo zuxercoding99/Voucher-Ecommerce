@@ -130,7 +130,9 @@ Puede tomar unos minutos arrancar el deploy
 ## **1️⃣ Login como ADMIN**
 
 ```bash
-curl -s -X POST https://voucher-ecommerce.onrender.com/api/auth/login   -H "Content-Type: application/json"   -d '{"email":"admin@system.local","password":"admin1234"}'
+curl -s -X POST https://voucher-ecommerce.onrender.com/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"admin@system.local","password":"admin1234"}' | tr -d
 ```
 
 Guardar:
@@ -160,7 +162,10 @@ curl -X POST https://voucher-ecommerce.onrender.com/api/auth/register   -H "Cont
 ## **4️⃣ Login como usuario**
 
 ```bash
-curl -X POST https://voucher-ecommerce.onrender.com/api/auth/login   -H "Content-Type: application/json"   -d '{"email":"user123@gmail.com","password":"string"}'
+curl -X POST https://voucher-ecommerce.onrender.com/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"user12345@gmail.com","password":"string"}' \
+| tr -d '\n'
 ```
 
 Guardar:
