@@ -81,13 +81,13 @@ bloqueen inventario.
 
 # 🧱 **Modelo de entidades**
 
-- **User** --- autenticación + roles (ADMIN / USER)\
-- **Voucher** --- precio, stock, descripción\
+- **User** --- autenticación + roles (ADMIN / USER)
+- **Voucher** --- precio, stock, descripción
 - **Purchase** --- registro completo de la compra + timestamps
-  (created, expired, used...)\
-- **Payment** --- información del pago real + estado\
+  (created, expired, used...)
+- **Payment** --- información del pago real + estado
 - **VoucherStatus** --- `AVAILABLE`, `ACTIVATED`, `USED`, `CANCELLED`,
-  `EXPIRED`\
+  `EXPIRED`
 - **PaymentStatus** --- `PENDING`, `APPROVED`, `REJECTED`,
   `PENDING_REFUND`, `REFUNDED`
 
