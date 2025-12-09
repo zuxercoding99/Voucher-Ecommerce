@@ -156,7 +156,14 @@ Guardar:
 ## **3️⃣ Registrar usuario**
 
 ```bash
-curl -X POST https://voucher-ecommerce.onrender.com/api/auth/register   -H "Content-Type: application/json"   -d '{"username":"user123","email":"user123@gmail.com","password":"string","birthDate":"2000-11-27"}'
+curl -X POST https://voucher-ecommerce.onrender.com/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "user12345",
+    "email": "user12345@gmail.com",
+    "password": "string",
+    "birthDate": "2000-11-27"
+  }'
 ```
 
 ## **4️⃣ Login como usuario**
@@ -175,28 +182,68 @@ Guardar:
 ## **5️⃣ Comprar un voucher**
 
 ```bash
-curl -X POST https://voucher-ecommerce.onrender.com/api/purchases   -H "Authorization: Bearer $USER_TOKEN"   -H "Content-Type: application/json"   -d "{"voucherId": $VOUCHER_ID, "paymentMethod": "MERCADOPAGO"}"
+curl -X POST https://voucher-ecommerce.onrender.com/api/purchases \
+  -H "Authorization: Bearer $USER_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d "{
+    \"voucherId\": $VOUCHER_ID,
+    \"paymentMethod\": \"MERCADOPAGO\"
+  }"
 ```
+
+El backend devuelve:
+
+```json
+{
+  "paymentUrl": "https://www.mercadopago.com/checkout/v1/redirect?...",
+  "purchaseId": 5
+}
+```
+
+Guardamos el id de la compra
+
+PURCHASE_ID=1
+
+## Pagar usando **cuenta de prueba de Mercado Pago**
+
+> Cuenta 1
+> Usuario
+> TESTUSER945585181881431062
+> Password
+> c5ODcs83wZ
+> Email code
+> 297594
+>
+> Cuenta 2
+> Usuario
+> TESTUSER8401499120115126884
+> Password
+> 1lWTm92Vo0
+> Email code
+> 901126
+
+Simular pago → Mercado Pago → Webhook → backend actualiza el estado.
 
 ## **6️⃣ Ver compras del usuario**
 
 ```bash
-curl https://voucher-ecommerce.onrender.com/api/purchases/me   -H "Authorization: Bearer $USER_TOKEN"
+curl https://voucher-ecommerce.onrender.com/api/purchases/me \
+  -H "Authorization: Bearer $USER_TOKEN"
 ```
 
 ## **7️⃣ Activar un voucher**
 
 ```bash
-curl -X POST https://voucher-ecommerce.onrender.com/api/purchases/$PURCHASE_ID/activate   -H "Authorization: Bearer $USER_TOKEN"
+curl -X POST https://voucher-ecommerce.onrender.com/api/purchases/$PURCHASE_ID/activate \
+  -H "Authorization: Bearer $USER_TOKEN"
 ```
 
 ## **8️⃣ Marcar como usado (ADMIN)**
 
 ```bash
-curl -X POST https://voucher-ecommerce.onrender.com/api/purchases/$PURCHASE_ID/used   -H "Authorization: Bearer $ADMIN_TOKEN"
+curl -X POST https://voucher-ecommerce.onrender.com/api/purchases/$PURCHASE_ID/used \
+  -H "Authorization: Bearer $ADMIN_TOKEN"
 ```
-
----
 
 # 👨‍💻 Sobre mí
 
