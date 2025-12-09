@@ -113,7 +113,7 @@ Procesa:
 
 - Java 17
 - Spring Boot 3
-- Spring Security + JWT
+- Spring Security + JWT + Refresh Token
 - Spring Data JPA
 - Mercado Pago Java SDK
 - PostgreSQL (prod) / H2 (test)
