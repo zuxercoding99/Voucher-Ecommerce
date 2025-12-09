@@ -2,12 +2,12 @@
 
 ![Java](https://img.shields.io/badge/Java-17-blue)
 ![SpringBoot](https://img.shields.io/badge/Spring%20Boot-3.x-brightgreen)
-![Status](https://img.shields.io/website?url=https%3A%2F%2Fvoucher-ecommerce.onrender.com)
+![Status](https://img.shields.io/website?url=https://voucher-ecommerce.onrender.com/)
 ![Docker](https://img.shields.io/badge/Docker-Enabled-blue)
 ![PostgreSQL](https://img.shields.io/badge/DB-PostgreSQL-336791)
 
 Backend REST para la compra y gestión de **vouchers (cupones
-digitales)**.\
+digitales)**.
 Incluye integración real con **Mercado Pago**, manejo de **webhooks**,
 control de stock, expiración automática, activación/uso de vouchers,
 usuarios con roles, y deploy en la nube con Docker.
@@ -114,7 +114,7 @@ Procesa:
 - Java 17
 - Spring Boot 3
 - Spring Security + JWT
-- Spring Data JPA\
+- Spring Data JPA
 - Mercado Pago Java SDK
 - PostgreSQL (prod) / H2 (test)
 - Docker
